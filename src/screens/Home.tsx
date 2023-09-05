@@ -5,6 +5,7 @@ import { getNewsStories } from "../store/newsDataSlice";
 import { AppDispatch, RootState } from "../store/store";
 import NewsItem from "../components/NewsItem";
 import { REDUX_STATUS } from "../store/types";
+import { PALETTE } from "../utils/palette";
 
 const Home = () => {
   const { data, status } = useSelector((state: RootState) => state.news);
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: PALETTE.background_grey,
   },
 });
 

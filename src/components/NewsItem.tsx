@@ -12,11 +12,13 @@ import { FONT_TITLE, FONT_BODY, FONT_SMALL } from "../utils/typography";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { format } from "date-fns";
+import { PALETTE } from "../utils/palette";
 
 const NewsItem = ({ title, score, url, time, by, karma }: NewsItemProps) => {
-  const onShare = async () => {
+  const onShare = async (url: string) => {
     try {
       const result = await Share.share({
+        url,
         message: "You won't believe this!",
       });
       if (result.action === Share.sharedAction) {
@@ -44,20 +46,23 @@ const NewsItem = ({ title, score, url, time, by, karma }: NewsItemProps) => {
         <Text style={styles.userName}>by: {by}</Text>
         <View style={styles.karmaContainer}>
           <Text style={styles.karma}>{karma}</Text>
-          <FontAwesome name="heart" size={12} color="#FE251B" />
+          <FontAwesome name="heart" size={12} color={PALETTE.red} />
         </View>
       </View>
       <View style={styles.scoreContainer}>
         <Text style={styles.score}>{score}</Text>
-        <FontAwesome name="thumbs-o-up" size={20} color="black" />
+        <FontAwesome name="thumbs-o-up" size={20} color={PALETTE.dark_grey} />
       </View>
       <Text style={styles.time}>{format(time, "eeee do MMMM")}</Text>
       <View style={styles.linkContainer}>
         <TouchableOpacity style={styles.linkButton} onPress={() => onOpenUrl()}>
-          <FontAwesome5 name="link" size={20} color="black" />
+          <FontAwesome5 name="link" size={20} color={PALETTE.dark_grey} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.linkButton} onPress={() => onShare()}>
-          <FontAwesome name="share" size={20} color="black" />
+        <TouchableOpacity
+          style={styles.linkButton}
+          onPress={() => onShare(url)}
+        >
+          <FontAwesome name="share" size={20} color={PALETTE.dark_grey} />
         </TouchableOpacity>
       </View>
     </View>
@@ -72,8 +77,7 @@ const styles = StyleSheet.create({
     marginVertical: STANDARD_MARGIN,
     padding: STANDARD_MARGIN,
     borderRadius: STANDARD_MARGIN,
-    borderWidth: 1,
-    borderColor: "#000",
+    backgroundColor: PALETTE.white,
   },
   title: {
     ...FONT_TITLE,
@@ -99,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   karmaContainer: {
-    backgroundColor: "#2081C3",
+    backgroundColor: PALETTE.primary_blue,
     borderRadius: 50,
     paddingHorizontal: 4,
     flexDirection: "row",
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
     ...FONT_SMALL,
     textAlign: "left",
     paddingRight: 4,
-    color: "#fff",
+    color: PALETTE.white,
   },
   userName: {
     ...FONT_SMALL,

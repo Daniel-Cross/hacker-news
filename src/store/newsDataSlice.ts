@@ -10,7 +10,20 @@ interface NewsDataProps {
 
 const initialState: NewsDataProps = {
   error: null,
-  data: [],
+  data: [
+    {
+      by: "",
+      descendants: 0,
+      id: 0,
+      kids: [],
+      score: 0,
+      time: 0,
+      title: "",
+      type: "",
+      url: "",
+      karma: 0,
+    },
+  ],
   status: REDUX_STATUS.IDLE,
 };
 
@@ -37,7 +50,22 @@ export const getNewsStories = createAsyncThunk(
         })
       );
 
-      return { stories };
+      const users = await Promise.all(
+        stories.map(async (story: NewsItemProps) => {
+          const userResponse = await fetch(
+            `https://hacker-news.firebaseio.com/v0/user/${story.by}.json`
+          );
+          return await userResponse.json();
+        })
+      );
+
+      const usersMap = new Map(users.map((user) => [user.id, user]));
+      const mergedPosts = stories.map((story) => ({
+        ...story,
+        karma: usersMap.get(story.by)?.karma || 0,
+      }));
+
+      return { mergedPosts };
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -55,7 +83,7 @@ export const news = createSlice({
     }),
       builder.addCase(getNewsStories.fulfilled, (state, action) => {
         state.status = REDUX_STATUS.SUCCEEDED;
-        const sortedStories = action.payload.stories.sort(
+        const sortedStories = action.payload.mergedPosts.sort(
           (a: NewsItemProps, b: NewsItemProps) => b.score - a.score
         );
         state.data = sortedStories;

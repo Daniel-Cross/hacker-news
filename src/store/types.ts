@@ -8,6 +8,7 @@ export interface NewsItemProps {
   title: string;
   type: string;
   url: string;
+  karma: number;
 }
 
 export enum REDUX_STATUS {

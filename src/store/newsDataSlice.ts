@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { REDUX_STATUS } from "../utils/constants";
 import { randomiseNewsData } from "./actions";
-import { NewsItem } from "./types";
+import { NewsItemProps, REDUX_STATUS } from "./types";
 
 interface NewsDataProps {
   error: string | null;
-  data: NewsItem[];
+  data: NewsItemProps[];
   status: string;
 }
 
@@ -52,14 +51,20 @@ export const news = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getNewsStories.pending, (state) => {
       state.status = REDUX_STATUS.LOADING;
+      return state;
     }),
       builder.addCase(getNewsStories.fulfilled, (state, action) => {
         state.status = REDUX_STATUS.SUCCEEDED;
-        state.data = action.payload.stories;
+        const sortedStories = action.payload.stories.sort(
+          (a: NewsItemProps, b: NewsItemProps) => b.score - a.score
+        );
+        state.data = sortedStories;
+        return state;
       }),
       builder.addCase(getNewsStories.rejected, (state, action) => {
         state.status = REDUX_STATUS.FAILED;
         state.error = action.error.message || "Error fetching data";
+        return state;
       });
   },
 });

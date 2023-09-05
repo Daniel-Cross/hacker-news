@@ -1,4 +1,4 @@
-export interface NewsItem {
+export interface NewsItemProps {
   by: string;
   descendants: number;
   id: number;
@@ -8,4 +8,11 @@ export interface NewsItem {
   title: string;
   type: string;
   url: string;
+}
+
+export enum REDUX_STATUS {
+  IDLE = "idle",
+  LOADING = "loading",
+  SUCCEEDED = "succeeded",
+  FAILED = "failed",
 }

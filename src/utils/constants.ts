@@ -1,6 +1,2 @@
-export const REDUX_STATUS = {
-  IDLE: "idle",
-  LOADING: "loading",
-  SUCCEEDED: "succeeded",
-  FAILED: "failed",
-};
+export const EDGE_MARGIN = 16;
+export const STANDARD_MARGIN = 8;

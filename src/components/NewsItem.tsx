@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { NewsItemProps } from "../store/types";
-import { EDGE_MARGIN, STANDARD_MARGIN } from "../utils/constants";
+import { STANDARD_MARGIN } from "../utils/constants";
 import { FONT_TITLE, FONT_BODY, FONT_SMALL } from "../utils/typography";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -55,12 +55,17 @@ const NewsItem = ({ title, score, url, time, by, karma }: NewsItemProps) => {
       </View>
       <Text style={styles.time}>{format(time, "eeee do MMMM")}</Text>
       <View style={styles.linkContainer}>
-        <TouchableOpacity style={styles.linkButton} onPress={() => onOpenUrl()}>
+        <TouchableOpacity
+          style={styles.linkButton}
+          onPress={() => onOpenUrl()}
+          testID="link-button"
+        >
           <FontAwesome5 name="link" size={20} color={PALETTE.dark_grey} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.linkButton}
           onPress={() => onShare(url)}
+          testID="share-button"
         >
           <FontAwesome name="share" size={20} color={PALETTE.dark_grey} />
         </TouchableOpacity>
@@ -73,8 +78,8 @@ export default NewsItem;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: EDGE_MARGIN,
-    marginVertical: STANDARD_MARGIN,
+    marginHorizontal: STANDARD_MARGIN,
+    marginVertical: 4,
     padding: STANDARD_MARGIN,
     borderRadius: STANDARD_MARGIN,
     backgroundColor: PALETTE.white,

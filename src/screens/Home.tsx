@@ -13,6 +13,7 @@ import { AppDispatch, RootState } from "../store/store";
 import NewsItem from "../components/NewsItem";
 import { REDUX_STATUS } from "../store/types";
 import { PALETTE } from "../utils/palette";
+import { IS_IOS } from "../utils/constants";
 
 const Home = () => {
   const { data, status } = useSelector((state: RootState) => state.news);
@@ -64,6 +65,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: PALETTE.background_grey,
+    paddingTop: IS_IOS() ? 0 : 30,
   },
 });
 
